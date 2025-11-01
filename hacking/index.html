@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6 Responsive Boxes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4f46e5',
+                        'secondary': '#10b981',
+                        'accent': '#f59e0b',
+                        'background': '#f9fafb',
+                        'card-bg': '#ffffff',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .box-container {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .box {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
+        }
+        .box:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        #message {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+        .message-show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen font-sans flex flex-col">
+
+    <nav class="bg-white shadow-lg sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="inline-flex items-center transition duration-300 hover:opacity-80">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://placehold.co/40x40/4f46e5/ffffff?text=L" alt="GridApp Logo" class="rounded-full ring-2 ring-primary/50 shadow-lg">
+                            <span class="text-2xl font-bold text-primary">HackingTools</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition duration-150">Home</a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition duration-150">Features</a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition duration-150">About</a>
+                    <a href="#" class="text-primary border border-primary px-3 py-1 rounded-full text-sm font-medium transition duration-150 hover:bg-primary hover:text-white">Contact</a>
+                </div>
+
+                <div class="flex items-center md:hidden">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary" aria-controls="mobile-menu" aria-expanded="false">
+                        <svg id="hamburger-icon" class="block h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <svg id="close-icon" class="hidden h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Features</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" class="text-gray-600 hover:bg-gray-50 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="message-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+        <div id="message" class="bg-primary text-white text-center py-2 px-6 rounded-full shadow-lg text-sm message-hide" role="alert">
+            </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8 flex-grow">
+        
+        <div class="text-center mb-12 max-w-lg mx-auto">
+            <div class="relative flex">
+                <input type="text" id="body-search-input" placeholder="Search features, settings, or help..." class="w-full pl-6 pr-12 py-3 border-2 border-primary/30 rounded-full focus:outline-none focus:ring-4 focus:ring-primary/20 text-base transition-all duration-300 shadow-lg">
+                <button id="body-search-button" class="absolute right-0 top-0 bottom-0 px-4 flex items-center text-white bg-primary rounded-full hover:bg-primary/90 transition duration-150 transform hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="box-grid" class="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+
+            <div class="box-container" data-box-id="1" data-tags="Core Feature Primary" data-title="Core Feature">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-primary">
+                    
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary">Core</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary">Feature</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-700">Primary</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Core Feature</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">A brief description for the first item with essential functionality.</p>
+
+                    <a href="#link-core-feature" class="text-primary hover:text-primary/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition duration-200 shadow-md cursor-pointer" data-box-title="Core Feature">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-container" data-box-id="2" data-tags="Settings Profile Security" data-title="User Settings">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-secondary">
+
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-secondary/10 text-secondary">Settings</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-secondary/10 text-secondary">Profile</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-600">Security</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">User Settings</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">Manage your profile and configuration options here.</p>
+
+                    <a href="#link-user-settings" class="text-secondary hover:text-secondary/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition duration-200 shadow-md cursor-pointer" data-box-title="User Settings">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-container" data-box-id="3" data-tags="Analytics Data Report" data-title="Data Analytics">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-accent">
+
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent">Analytics</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent">Data</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-600">Report</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Data Analytics</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">Key insights and visualization of your performance metrics.</p>
+
+                    <a href="#link-data-analytics" class="text-accent hover:text-accent/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-accent text-white font-bold rounded-lg hover:bg-accent/90 transition duration-200 shadow-md cursor-pointer" data-box-title="Data Analytics">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-container" data-box-id="4" data-tags="Support FAQ New" data-title="Help Center">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-primary">
+
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary">Support</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-700">FAQ</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">New</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Help Center</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">Access detailed documentation and customer support articles.</p>
+
+                    <a href="#link-help-center" class="text-primary hover:text-primary/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition duration-200 shadow-md cursor-pointer" data-box-title="Help Center">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-container" data-box-id="5" data-tags="History Logs Recent" data-title="Recent Activity">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-secondary">
+
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-secondary/10 text-secondary">History</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-700">Logs</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-secondary/10 text-secondary">Recent</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Recent Activity</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">Review your transaction and interaction history.</p>
+
+                    <a href="#link-recent-activity" class="text-secondary hover:text-secondary/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-secondary text-white font-bold rounded-lg hover:bg-secondary/90 transition duration-200 shadow-md cursor-pointer" data-box-title="Recent Activity">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+            <div class="box-container" data-box-id="6" data-tags="Community Social Forum" data-title="Community Hub">
+                <div class="box bg-card-bg rounded-xl shadow-lg p-6 flex flex-col items-center text-center border-b-4 border-accent">
+
+                    <div class="flex flex-wrap gap-2 justify-center mb-3 mt-4">
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent">Community</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-pink-100 text-pink-600">Social</span>
+                        <span class="inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full bg-accent/10 text-accent">Forum</span>
+                    </div>
+
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Community Hub</h2>
+                    <p class="text-gray-500 mt-1 text-sm mb-4">Connect with other users and share knowledge.</p>
+
+                    <a href="#link-community-hub" class="text-accent hover:text-accent/80 font-medium text-sm mb-4 transition duration-150 cursor-pointer">View Details &rarr;</a>
+
+                    <button class="action-button w-full py-2 px-4 bg-accent text-white font-bold rounded-lg hover:bg-accent/90 transition duration-200 shadow-md cursor-pointer" data-box-title="Community Hub">
+                        Activate
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-16 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8 mb-4">
+                <a href="#" class="text-sm text-gray-600 hover:text-primary transition duration-150">Privacy Policy</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-primary transition duration-150">Terms of Service</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-primary transition duration-150">Sitemap</a>
+            </div>
+            <p class="text-sm text-gray-500">
+                &copy; <span id="current-year"></span> The Grid Company. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const actionButtons = document.querySelectorAll('.action-button');
+        const messageBox = document.getElementById('message');
+        
+        const bodySearchInput = document.getElementById('body-search-input');
+        const bodySearchButton = document.getElementById('body-search-button');
+        const boxContainers = document.querySelectorAll('.box-container');
+
+        function showNotification(text, duration = 2000) {
+            messageBox.textContent = text;
+            messageBox.classList.add('message-show');
+            setTimeout(() => {
+                messageBox.classList.remove('message-show');
+            }, duration);
+        }
+
+        actionButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const boxTitle = button.getAttribute('data-box-title');
+                const parentBoxContainer = button.closest('.box-container'); 
+                const boxId = parentBoxContainer ? parentBoxContainer.getAttribute('data-box-id') : 'N/A';
+                
+                showNotification(`Button clicked for ${boxTitle} (Box #${boxId})!`);
+
+                const innerBox = parentBoxContainer.querySelector('.box');
+                if (innerBox) {
+                    innerBox.classList.add('ring-4', 'ring-offset-2', 'ring-primary/50');
+                    setTimeout(() => {
+                        innerBox.classList.remove('ring-4', 'ring-offset-2', 'ring-primary/50');
+                    }, 500);
+                }
+            });
+        });
+
+        function filterBoxes(query) {
+            const lowerCaseQuery = query.toLowerCase().trim();
+
+            boxContainers.forEach(container => {
+                const title = container.getAttribute('data-title').toLowerCase();
+                const tags = container.getAttribute('data-tags').toLowerCase();
+                
+                const matches = title.includes(lowerCaseQuery) || tags.includes(lowerCaseQuery);
+
+                if (lowerCaseQuery === "" || matches) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            });
+        }
+
+        bodySearchInput.addEventListener('input', (e) => {
+            filterBoxes(e.target.value);
+        });
+
+        function handleSearch(inputElement, type) {
+            const query = inputElement.value.trim();
+            
+            if (query) {
+                showNotification(`Searching for: "${query}" (${type} search)`, 3000);
+                inputElement.value = '';
+                filterBoxes("");
+            } else {
+                showNotification(`Please enter a search term!`, 2000);
+            }
+        }
+
+        bodySearchButton.addEventListener('click', () => handleSearch(bodySearchInput, 'Body Content'));
+        
+        bodySearchInput.addEventListener('keypress', (e) => { 
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch(bodySearchInput, 'Body Content');
+            }
+        });
+
+
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuButton.addEventListener('click', () => {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                hamburgerIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                hamburgerIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
